@@ -5,8 +5,8 @@ const Header=()=>{
     return(
         <header className={classes.header}>
             <Link to="/" >Home</Link>
-            <a href="/">Products</a>
-            <a href="/">About Us</a>
+            <Link to="/">Products</Link>
+            <Link to="/">About Us</Link>
         </header>
     )
 }

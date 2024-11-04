@@ -15,7 +15,7 @@ const SignUp=()=>{
     const handleFormSubmit=(e)=>{
         e.preventDefault();
         let url;
-        if(password===confirmPassword){
+        if(loginContext.isLogin || password===confirmPassword){
             if(loginContext.isLogin){
                 url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCCDvqMLJkVORZz3m2NDOjT91e2Qu0X2_c';
             }
@@ -45,7 +45,7 @@ const SignUp=()=>{
                 }
               }).then(data =>{
                 loginContext.login(data.idToken)
-                navigate('./')
+                navigate('/')
                 console.log(data)
               })
               .catch((err)=>{
