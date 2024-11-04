@@ -39,4 +39,16 @@
     padding: 15px 10px;
     background-color: rgb(186, 236, 205);
     border: none;
+    cursor: pointer;
+}
+.forget{
+    margin-top: 60px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: cadetblue;
+    color: white;
+    padding: 5px 100px;
+    margin-left: 5%;
+    cursor: pointer;
 }
