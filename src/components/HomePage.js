@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from "./HomePage.module.css"
 import { Link } from 'react-router-dom'
+import Header from './Header'
 
 const HomePage = () => {
 
@@ -15,7 +16,15 @@ const HomePage = () => {
         'Content-Type': 'application/json'
       },
     }).then(res=>{
-        return res.json()
+      if(res.ok){
+        return res.json();
+      }
+      else{
+        return res.json().then(data=> {
+          let errorMessage='Something went wrong'
+           throw new Error(errorMessage);
+        });
+      }
     }).then(data=>{
       console.log(data)
     }).catch((err)=>{
@@ -24,6 +33,7 @@ const HomePage = () => {
   }
 
   return ( <>
+  <Header />
   <div className={classes.main}>
     <div>Welcome to Expense Tracker!!!</div>
     <div>Your Profile is Incomplete.<Link to="/profile">Complete now</Link></div>

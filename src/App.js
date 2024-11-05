@@ -30,7 +30,6 @@ function App() {
 
   return (
     <>
-      
       <RouterProvider router={router} ><Header /></RouterProvider>
     </>
   );

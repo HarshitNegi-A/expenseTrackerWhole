@@ -5,6 +5,7 @@ const LoginContext=React.createContext({
     isLoggedIn: false,
     changeLogin:()=>{},
     login:()=>{},
+    logout:()=>{},
 })
 
 export default LoginContext;

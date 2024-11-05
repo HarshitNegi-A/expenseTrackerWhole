@@ -16,6 +16,11 @@ const LoginProvider = (props) => {
         setToken(token)
         localStorage.setItem('token',token);
     }   
+
+    const logoutHandler=()=>{
+        setToken(null)
+        localStorage.removeItem('token');
+    }
    
 
     const logincontext={
@@ -23,6 +28,7 @@ const LoginProvider = (props) => {
         isLoggedIn:userIsLoggedIn,
         changeLogin:handleLoginChange,
         login:loginHandler,
+        logout:logoutHandler,
     }
 
   return (
