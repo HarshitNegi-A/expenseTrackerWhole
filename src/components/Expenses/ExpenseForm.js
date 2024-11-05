@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classes from "./ExpenseForm.module.css"
 import ExpenseItem from './ExpenseItem'
 import Header from '../Header'
+
+
 
 const ExpenseForm = () => {
 
@@ -9,6 +11,21 @@ const ExpenseForm = () => {
     const [desc,setDesc]=useState("")
     const [type,setType]=useState("")
     const [items,setItems]=useState([])
+
+    useEffect(()=>{
+      fetch('https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses.json')
+      .then(res=>{
+          return res.json();
+      }).then(data=>{
+        const arr=[];
+        for(let i in data){
+          arr.push(data[i].item)
+        }
+        setItems(arr);
+      }).catch(err=>{
+        console.log(err)
+      })
+    },[])
 
     const handleFormSubmit=(e)=>{
         e.preventDefault();
@@ -18,6 +35,21 @@ const ExpenseForm = () => {
             desc:desc,
             type:type,
         }
+        fetch('https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses.json',{
+          method:'POST',
+          body:JSON.stringify({
+            item:obj
+          }),
+          headers:{
+            'Content-Type' : 'application/json'
+        }
+        }).then(res=>{
+          return res.json();
+        }).then(data=>{
+          console.log(data.name)
+        }).catch(err=>{
+          console.log(err)
+        })
         setItems([...items,obj])
         setAmount(0)
         setDesc("")
