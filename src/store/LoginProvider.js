@@ -16,7 +16,7 @@ const LoginProvider = (props) => {
         setToken(token)
         localStorage.setItem('token',token);
     }   
-
+   
 
     const logincontext={
         isLogin:login,

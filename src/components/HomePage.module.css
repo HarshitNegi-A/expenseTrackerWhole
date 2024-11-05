@@ -8,3 +8,9 @@
     font-size: 25px;
     font-style: italic;
 }
+.button{
+    font-size: 30px;
+    margin-top:70px;
+    margin-left: 45%;
+    cursor: pointer;
+}

@@ -33,16 +33,8 @@ const SignUp=()=>{
                     'Content-Type' : 'application/json'
                 }
             }).then(res =>{
-                
-                if(res.ok){
-                  return res.json();
-                }
-                else{
-                  return res.json().then(data=> {
-                    let errorMessage='Authetication Failed'
-                     throw new Error(errorMessage);
-                  });
-                }
+                return res.json();
+              
               }).then(data =>{
                 loginContext.login(data.idToken)
                 navigate('/')

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import classes from "./Profile.module.css";
 
 const Profile = () => {
 
-    let [name,setName]=useState("")
+    const [name,setName]=useState("")
     const [photoURL,setPhotoURL]=useState("")
 
 
     const handleFormSubmit=(e)=>{
         e.preventDefault();
-
         fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCCDvqMLJkVORZz3m2NDOjT91e2Qu0X2_c",{
             method:'POST',
             body:JSON.stringify({
