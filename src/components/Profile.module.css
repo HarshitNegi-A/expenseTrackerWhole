@@ -1,0 +1,42 @@
+.main{
+    border-bottom: 1px solid black;
+    padding: 15px;
+}
+.main p{
+    font-size: 25px;
+    font-style: italic;
+}
+.form{
+    border-bottom: 1px solid black;
+    height: 400px;
+    margin-top: 60px;
+    width: 1500px;
+    position: absolute;
+    right: 100px;
+}
+.formHeader{
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+}
+.formHeader button{
+    font-size: 10px;
+    padding: 0 20px;
+    font-size: 15px;
+    border: 1px solid red;
+    background-color: white;
+    color: red;
+    cursor: pointer;
+}
+.form form{
+    margin-top: 50px;
+}
+.form form label{
+    margin-right: 30px;
+}
+.form form input{
+    margin-right: 30px;
+}
+.form form button{
+    cursor: pointer;
+}

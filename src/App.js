@@ -4,6 +4,7 @@ import Header from './components/Header';
 import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
 import LoginContext from './store/login-context';
+import Profile from './components/Profile';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -12,6 +13,10 @@ function App() {
     {
       path: '/',
       element: loginContext.isLoggedIn ? <HomePage /> : <SignUp />, 
+    },
+    {
+      path: '/profile',
+      element:  <Profile /> , 
     },
     // {
     //   path: '/signup',

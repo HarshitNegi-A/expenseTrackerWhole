@@ -1,0 +1,10 @@
+.main{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding: 15px;
+}
+.main div{
+    font-size: 25px;
+    font-style: italic;
+}
