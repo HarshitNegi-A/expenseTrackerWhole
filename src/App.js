@@ -6,6 +6,7 @@ import HomePage from './components/HomePage';
 import LoginContext from './store/login-context';
 import Profile from './components/Profile';
 import ForgetPassword from './components/ForgetPassword';
+import ExpenseForm from './components/Expenses/ExpenseForm';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -22,6 +23,10 @@ function App() {
     {
       path: '/resetPassword',
       element:  <ForgetPassword /> , 
+    },
+    {
+      path: '/expense',
+      element:  <ExpenseForm /> , 
     },
     // {
     //   path: '/signup',

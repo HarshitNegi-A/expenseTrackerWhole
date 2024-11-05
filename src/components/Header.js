@@ -12,9 +12,10 @@ const Header=()=>{
     }
     return(
         <header className={classes.header}>
-            <div>
+            <div className={classes.links}>
             <Link to="/" >Home</Link>
-            <Link to="/">Products</Link>
+            <Link to="/profile">Profile</Link>
+            <Link to="/expense">Expenses</Link>
             <Link to="/">About Us</Link>
             </div>
             <button onClick={handleLogout}>Log Out</button>

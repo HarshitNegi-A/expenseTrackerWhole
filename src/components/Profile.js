@@ -1,5 +1,6 @@
 import React, {  useEffect, useState } from "react";
 import classes from "./Profile.module.css";
+import Header from "./Header";
 
 const Profile = () => {
 
@@ -59,6 +60,7 @@ const Profile = () => {
 
   return (
     <div>
+        <Header/>
       <div className={classes.main}>
         <p>Winners never quits,Quitters never win.</p>
       </div>
