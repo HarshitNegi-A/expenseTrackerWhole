@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import classes from "./SignUp.module.css"
 import LoginContext from "../store/login-context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp=()=>{
 
@@ -78,7 +78,7 @@ const SignUp=()=>{
             {loginContext.isLogin?<button type="submit">Login</button>:<button type="submit">Sign Up</button>}
             
         </form><br/><br/>
-        {loginContext.isLogin && <button className={classes.forget}>Forget Password</button>}
+        {loginContext.isLogin && <Link to="/resetPassword"><button className={classes.forget}>Forget Password</button></Link>}
         
         
     </div>

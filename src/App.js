@@ -5,6 +5,7 @@ import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
 import LoginContext from './store/login-context';
 import Profile from './components/Profile';
+import ForgetPassword from './components/ForgetPassword';
 
 function App() {
   const loginContext = useContext(LoginContext);
@@ -17,6 +18,10 @@ function App() {
     {
       path: '/profile',
       element:  <Profile /> , 
+    },
+    {
+      path: '/resetPassword',
+      element:  <ForgetPassword /> , 
     },
     // {
     //   path: '/signup',
