@@ -1,15 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./Header.module.css"
-import { useContext } from "react";
-import LoginContext from "../store/login-context";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/redux-store";
 
 const Header=()=>{
 
-    const loginContext=useContext(LoginContext);
+    // const loginContext=useContext(LoginContext);
+    const dispatch=useDispatch()
+    const navi=useNavigate();
+    
 
     const handleLogout=()=>{
-        loginContext.logout();
+        // loginContext.logout();
+        dispatch(authActions.logout())
+        localStorage.setItem('token',null)
+        localStorage.setItem('userId',null)
+        navi('/')
     }
+   
     return(
         <header className={classes.header}>
             <div className={classes.links}>
@@ -18,7 +26,7 @@ const Header=()=>{
             <Link to="/expense">Expenses</Link>
             <Link to="/">About Us</Link>
             </div>
-            <button onClick={handleLogout}>Log Out</button>
+            <button className={classes.button} onClick={handleLogout}>Log Out</button>
         </header>
     )
 }

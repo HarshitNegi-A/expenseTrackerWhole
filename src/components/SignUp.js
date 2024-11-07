@@ -1,7 +1,9 @@
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import classes from "./SignUp.module.css"
-import LoginContext from "../store/login-context";
+// import LoginContext from "../store/login-context";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/redux-store";
 
 const SignUp=()=>{
 
@@ -10,13 +12,18 @@ const SignUp=()=>{
     const [confirmPassword,setConfirmPassword]=useState("")
     const navigate=useNavigate();
 
-    const loginContext=useContext(LoginContext);
+    //HELLO
+
+    // const loginContext=useContext(LoginContext);
+
+    const login=useSelector(state=>state.auth.login)
+    const dispatch=useDispatch()
 
     const handleFormSubmit=(e)=>{
         e.preventDefault();
         let url;
-        if(loginContext.isLogin || password===confirmPassword){
-            if(loginContext.isLogin){
+        if(login || password===confirmPassword){
+            if(login){
                 url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCCDvqMLJkVORZz3m2NDOjT91e2Qu0X2_c';
             }
             else{
@@ -44,9 +51,13 @@ const SignUp=()=>{
                   }
               
               }).then(data =>{
-                loginContext.login(data.idToken)
+                // loginContext.login(data.idToken)
+                dispatch(authActions.login(data.idToken))
+                dispatch(authActions.changeUserId(email))
+                localStorage.setItem('userId',email)
+                localStorage.setItem('token',data.idToken)
                 navigate('/')
-                console.log(data)
+                
               })
               .catch((err)=>{
                 alert(err.message)
@@ -61,29 +72,30 @@ const SignUp=()=>{
     }
 
     const handleButtonClick=()=>{
-        loginContext.changeLogin();
+        // loginContext.changeLogin();
+        dispatch(authActions.changeLogin())
         console.log("clicked")
     }
 
     return ( <>
     <div className={classes.main}>
-        <h1>{loginContext.isLogin ? 'Login' : 'Sign Up'}</h1>
+        <h1>{login ? 'Login' : 'Sign Up'}</h1>
         <form onSubmit={handleFormSubmit}>
             <label htmlFor="email">Email:</label>
             <input value={email} onChange={(e)=>{setEmail(e.target.value)}} type="text" required id="email"/><br/><br/>
             <label htmlFor="password">Password:</label>
             <input value={password} onChange={(e)=>{setPassword(e.target.value)}} type="password" required id="password"/><br/><br/>
-            {!loginContext.isLogin && <><label htmlFor="cpassword">Confirm Password:</label>
+            {!login && <><label htmlFor="cpassword">Confirm Password:</label>
             <input value={confirmPassword} onChange={(e)=>{setConfirmPassword(e.target.value)}} type="password" required id="cpassword"/><br/><br/></>}
-            {loginContext.isLogin?<button type="submit">Login</button>:<button type="submit">Sign Up</button>}
+            {login?<button type="submit">Login</button>:<button type="submit">Sign Up</button>}
             
         </form><br/><br/>
-        {loginContext.isLogin && <Link to="/resetPassword"><button className={classes.forget}>Forget Password</button></Link>}
+        {login && <Link to="/resetPassword"><button className={classes.forget}>Forget Password</button></Link>}
         
         
     </div>
     
-    <button onClick={handleButtonClick} className={classes.button} type="click">{loginContext.isLogin?'Dont have an account?Sign Up':'Have an account?Login'}</button>
+    <button onClick={handleButtonClick} className={classes.button} type="click">{login?'Dont have an account?Sign Up':'Have an account?Login'}</button>
     </>
     )
 }

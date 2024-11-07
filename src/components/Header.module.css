@@ -19,3 +19,6 @@
     color: black;
     padding-right: 60px;
 }
+.button{
+    cursor: pointer;
+}

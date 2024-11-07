@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react'
 import classes from "./ExpenseForm.module.css"
 import ExpenseItem from './ExpenseItem'
 import Header from '../Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { expenseActions } from '../../store/redux-store'
 
 
 
 const ExpenseForm = () => {
 
     const [amount,setAmount]=useState(0)
-    const [desc,setDesc]=useState("")
+    const [desc,setDesc]=useState("") 
     const [type,setType]=useState("")
-    const [items,setItems]=useState([])
     const [updating,setUpdating]=useState(false)
     const [newId,setNewId]=useState(null)
 
-    useEffect(()=>{
-      fetch('https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses.json')
+    const expenses=useSelector(state=>state.expenses.expenses)
+    const userId=useSelector(state=>state.auth.userId)
+    const safeEmail = userId.replace('@', '_at_').replace('.', '_dot_');
+
+     const dispatch=useDispatch();
+
+    useEffect(()=>{     
+      fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${safeEmail}.json`)
       .then(res=>{
           return res.json();
       }).then(data=>{
@@ -26,7 +33,8 @@ const ExpenseForm = () => {
               console.log(data[i])
               arr.push({ id: i, ...data[i] })
             }
-            setItems(arr);
+            dispatch(expenseActions.replace(arr));
+            // setItems(arr);
             console.log(arr)
           }
        
@@ -43,7 +51,7 @@ const ExpenseForm = () => {
             type:type,
         }
         if(updating){
-          fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${newId}.json`,{
+          fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${safeEmail}/${newId}.json`,{
             method:'PUT',
             body:JSON.stringify(obj),
             headers:{
@@ -53,9 +61,10 @@ const ExpenseForm = () => {
             return res.json();
           }).then(data=>{
             console.log(data)
-            setItems(prevItems => 
-              prevItems.map(item => item.id === newId ? { ...item, ...obj } : item)
-          );
+          //   setItems(prevItems => 
+          //     prevItems.map(item => item.id === newId ? { ...item, ...obj } : item)
+          // );
+          dispatch(expenseActions.edit({id:newId, obj:obj}))
             
           }).catch(err=>{
             console.log(err)
@@ -63,10 +72,11 @@ const ExpenseForm = () => {
           setUpdating(false)
           setAmount(0);
           setDesc("");
-          setType("");
+          setType("");    
         }
         else{
-          fetch('https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses.json',{
+          console.log(userId)
+          fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${safeEmail}.json`,{
             method:'POST',
             body:JSON.stringify(obj),
             headers:{
@@ -76,7 +86,8 @@ const ExpenseForm = () => {
             return res.json();
           }).then(data=>{
             const newItem = { id: data.name, ...obj }; 
-          setItems((prevItems) => [...prevItems, newItem]); 
+          // setItems((prevItems) => [...prevItems, newItem]); 
+          dispatch(expenseActions.add(newItem))
           setAmount(0);
           setDesc("");
           setType("");
@@ -89,19 +100,19 @@ const ExpenseForm = () => {
         
     }
 
-    console.log(items)
 
 
   const deleteItem = (id) => {
     console.log(id)
-    fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${id}.json`, {
+    fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${safeEmail}/${id}.json`, {
       method: 'DELETE'
   })
   .then(response => {
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
-      setItems(items.filter(item => item.id !== id));
+      // setItems(items.filter(item => item.id !== id));
+      dispatch(expenseActions.delete(id))
       console.log("Item deleted successfully");
   })
   .catch(error => {
@@ -109,12 +120,13 @@ const ExpenseForm = () => {
   });
   } 
   const editItem = (id) => {
-    setNewId(id)
-    setUpdating(true);
-    const itemToEdit = items.find(item => item.id === id);
+    const itemToEdit = expenses.find(item => item.id === id);
+    console.log(itemToEdit)
     setAmount(itemToEdit.amount);
     setDesc(itemToEdit.desc);
     setType(itemToEdit.type);
+    setUpdating(true);
+    setNewId(id)
     // deleteItem(id);  
   };
 
@@ -136,7 +148,7 @@ const ExpenseForm = () => {
         </select>
         <button type='submit'>{updating?'Update expenses':'Add Expenses'}</button>
     </form>
-    <ExpenseItem lists={items} onDelete={deleteItem} onEdit={editItem}/>
+    <ExpenseItem onDelete={deleteItem} onEdit={editItem}/>
     </div>
   )
 }

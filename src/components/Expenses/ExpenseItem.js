@@ -1,10 +1,13 @@
 import React from 'react';
 import classes from './ExpenseItem.module.css';
+import { useSelector } from 'react-redux';
 
 const ExpenseItem = (props) => {
+  const expense=useSelector(state=>state.expenses.expenses)
+  console.log(expense)
   return (
     <ul className={classes.expenseList}>
-      {props.lists.map((item) => (
+      {expense.map((item) => (
         <li key={item.id} className={classes.expenseItem}>
           <div className={classes.expenseDetails}>
             <span className={classes.description}>{item.desc}</span>
