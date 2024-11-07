@@ -59,3 +59,15 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
   }
+  .premiumBtn {
+    background-color: #ffcc00;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .premiumBtn:hover {
+    background-color: #ff9900;
+  }

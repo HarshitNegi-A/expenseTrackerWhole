@@ -21,6 +21,8 @@ const ExpenseForm = () => {
 
      const dispatch=useDispatch();
 
+     const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
+
     useEffect(()=>{     
       fetch(`https://expense-tracker-baf8e-default-rtdb.firebaseio.com/expenses/${safeEmail}.json`)
       .then(res=>{
@@ -149,6 +151,9 @@ const ExpenseForm = () => {
         <button type='submit'>{updating?'Update expenses':'Add Expenses'}</button>
     </form>
     <ExpenseItem onDelete={deleteItem} onEdit={editItem}/>
+    {totalExpenses > 10000 && (
+        <button className={classes.premiumBtn}>Activate Premium</button>
+      )}
     </div>
   )
 }
