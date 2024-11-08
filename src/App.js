@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Header from './components/Header';
 import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
-// import LoginContext from './store/login-context';
 import Profile from './components/Profile';
 import ForgetPassword from './components/ForgetPassword';
 import ExpenseForm from './components/Expenses/ExpenseForm';

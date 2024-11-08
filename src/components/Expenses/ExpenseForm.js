@@ -3,7 +3,7 @@ import classes from "./ExpenseForm.module.css"
 import ExpenseItem from './ExpenseItem'
 import Header from '../Header'
 import { useDispatch, useSelector } from 'react-redux'
-import { expenseActions } from '../../store/redux-store'
+import { expenseActions, themeActions } from '../../store/redux-store'
 
 
 
@@ -18,6 +18,7 @@ const ExpenseForm = () => {
     const expenses=useSelector(state=>state.expenses.expenses)
     const userId=useSelector(state=>state.auth.userId)
     const safeEmail = userId.replace('@', '_at_').replace('.', '_dot_');
+    const isDarkTheme=useSelector(state=>state.theme.isDarkTheme);
 
      const dispatch=useDispatch();
 
@@ -44,6 +45,32 @@ const ExpenseForm = () => {
         console.log(err)
       })
     },[])
+
+    const handleToggleTheme=()=>{
+      dispatch(themeActions.toggleTheme())
+    }
+
+    const handleActivatePremium=()=>{
+      dispatch(themeActions.activateDarkTheme())
+    }
+
+    const handleDownloadFile=()=>{
+      const csvData = expenses.map(expense => ({
+        Amount: expense.amount,
+        Description: expense.desc,
+        Category: expense.type
+      }));
+      const csvContent = "data:text/csv;charset=utf-8,"
+        + ["Amount,Description,Category", ...csvData.map(e => `${e.Amount},${e.Description},${e.Category}`)].join("\n");
+  
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "expenses.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
     const handleFormSubmit=(e)=>{
         e.preventDefault();
@@ -132,7 +159,7 @@ const ExpenseForm = () => {
     // deleteItem(id);  
   };
 
-  return ( <div>
+  return ( <div className={isDarkTheme ? classes.darkTheme : classes.lightTheme}>
     <Header/>
     <h1 className={classes.heading}>EXPENSE TRACKER</h1>
     <form onSubmit={handleFormSubmit} className={classes.form}>
@@ -152,8 +179,14 @@ const ExpenseForm = () => {
     </form>
     <ExpenseItem onDelete={deleteItem} onEdit={editItem}/>
     {totalExpenses > 10000 && (
-        <button className={classes.premiumBtn}>Activate Premium</button>
+        <button className={classes.premiumBtn} onClick={handleActivatePremium}>Activate Premium</button>
       )}
+       <button onClick={handleToggleTheme} className={classes.toggleThemeBtn}>
+        Toggle {isDarkTheme ? 'Light' : 'Dark'} Theme
+      </button>
+      <button onClick={handleDownloadFile} className={classes.downloadBtn}>
+        Download Expenses
+      </button>
     </div>
   )
 }

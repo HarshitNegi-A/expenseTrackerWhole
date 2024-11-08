@@ -1,6 +1,5 @@
 import {  useState } from "react";
 import classes from "./SignUp.module.css"
-// import LoginContext from "../store/login-context";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/redux-store";
@@ -14,7 +13,6 @@ const SignUp=()=>{
 
     //HELLO
 
-    // const loginContext=useContext(LoginContext);
 
     const login=useSelector(state=>state.auth.login)
     const dispatch=useDispatch()
@@ -51,7 +49,6 @@ const SignUp=()=>{
                   }
               
               }).then(data =>{
-                // loginContext.login(data.idToken)
                 dispatch(authActions.login(data.idToken))
                 dispatch(authActions.changeUserId(email))
                 localStorage.setItem('userId',email)

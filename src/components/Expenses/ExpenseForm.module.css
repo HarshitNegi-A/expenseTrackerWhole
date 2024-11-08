@@ -71,3 +71,37 @@
   .premiumBtn:hover {
     background-color: #ff9900;
   }
+  .lightTheme {
+    background-color: white;
+    color: black;
+    
+  }
+  
+  .darkTheme {
+    background-color: #333;
+    color: white;
+    height: 100rem
+  }
+  
+  .premiumBtn, .toggleThemeBtn, .downloadBtn {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 20%;
+  }
+  
+  .premiumBtn {
+    background-color: #ffcc00;
+    color: white;
+  }
+  
+  .toggleThemeBtn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .downloadBtn {
+    background-color: #28a745;
+    color: white;
+  }
